@@ -1,29 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { NotepadApp } from "@/components/notepad/NotepadApp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Notepad++ Web — Modern Code Editor" },
+      { name: "description", content: "A modern, browser-based Notepad++ clone with Monaco editor, multi-tab editing, themes, live preview, and command palette." },
+      { property: "og:title", content: "Notepad++ Web" },
+      { property: "og:description", content: "A modern Notepad++ clone in your browser." },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  // Monaco needs the browser; render only after mount.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-background text-muted-foreground">
+        Loading Notepad++…
+      </div>
+    );
+  }
+  return <NotepadApp />;
 }
